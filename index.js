@@ -70,6 +70,22 @@ async function run() {
       res.send(result);
     });
 
+    // user create and update api
+    app.put("/user/:email", async (req, res) => {
+      const email = req.params.email;
+      const user = req.body;
+      const filter = { email: email };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: user,
+      };
+      const result = await userCollection.updateOne(filter, updateDoc, options);
+      // Get secret Pin () / JWT token
+      const token = jwt.sign({ email: email }, "secret", { expiresIn: "5d" });
+
+      res.send({ success: true, result, accessToken: token });
+    });
+
     //-------------------------------------------------------------------
 
     //-------------------------------------------------
