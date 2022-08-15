@@ -70,6 +70,8 @@ async function run() {
       res.send(result);
     });
 
+    //-------------------------------------------------------------------
+
     // user create and update api
     app.put("/user/:email", async (req, res) => {
       const email = req.params.email;
@@ -86,7 +88,18 @@ async function run() {
       res.send({ success: true, result, accessToken: token });
     });
 
-    //-------------------------------------------------------------------
+    // single user update api
+    app.put("/user/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+      const user = req.body;
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: user,
+      };
+      const result = await userCollection.updateOne(filter, updateDoc, options);
+      res.send({ result });
+    });
 
     //-------------------------------------------------
 
