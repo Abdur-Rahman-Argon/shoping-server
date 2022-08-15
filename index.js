@@ -150,11 +150,20 @@ async function run() {
 
     //------(Product Order)---------------------------------------
 
-    // product add to cart api
+    // product add to cart post api
     app.post("/addToCart", async (req, res) => {
       const cart = req.body;
       const result = await cartCollection.insertOne(cart);
       res.send({ success: true, result });
+    });
+
+    // one user get his cart product api
+    app.get("/addToCart/:userEmail", async (req, res) => {
+      const userEmail = req.params.userEmail;
+      const query = { email: userEmail };
+      const cursor = await cartCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
     });
 
     //-------------------------------------------------
