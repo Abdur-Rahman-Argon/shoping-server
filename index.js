@@ -173,6 +173,15 @@ async function run() {
       res.send({ success: true, result });
     });
 
+    // get users one order api
+    app.get("/myOrder/:id", async (req, res) => {
+      const orderId = req.params.id;
+      console.log(orderId);
+      const query = { _id: ObjectId(orderId) };
+      const result = await myOrderCollection.findOne(query);
+      res.send(result);
+    });
+
     //-------------------------------------------------
 
     //
