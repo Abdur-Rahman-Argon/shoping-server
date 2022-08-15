@@ -61,6 +61,17 @@ async function run() {
       res.send(result);
     });
 
+    // one product get api
+    app.get("/allProduct/:productId", async (req, res) => {
+      const id = req.params.productId;
+      const query = { _id: ObjectId(id) };
+      const result = await productCollection.findOne(query);
+      // console.log(result);
+      res.send(result);
+    });
+
+    //-------------------------------------------------------------------
+
     //-------------------------------------------------
 
     //
