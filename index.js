@@ -148,6 +148,15 @@ async function run() {
       res.send(result);
     });
 
+    //------(Product Order)---------------------------------------
+
+    // product add to cart api
+    app.post("/addToCart", async (req, res) => {
+      const cart = req.body;
+      const result = await cartCollection.insertOne(cart);
+      res.send({ success: true, result });
+    });
+
     //-------------------------------------------------
 
     //
