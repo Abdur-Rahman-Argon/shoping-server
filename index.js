@@ -166,6 +166,13 @@ async function run() {
       res.send(result);
     });
 
+    // user order post api
+    app.post("/myOrder", async (req, res) => {
+      const order = req.body;
+      const result = await myOrderCollection.insertOne(order);
+      res.send({ success: true, result });
+    });
+
     //-------------------------------------------------
 
     //
