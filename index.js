@@ -234,6 +234,14 @@ async function run() {
       res.send({ updateOrder });
     });
 
+    //
+    app.post("/publicReview", async (req, res, next) => {
+      const reviews = req.body;
+      const result = await publicReviewCollection.insertOne(reviews);
+      // const result = await cursor.toArray();
+      res.send({ success: true, result });
+    });
+
     //-------------------------------------------------
 
     //
