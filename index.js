@@ -204,6 +204,22 @@ async function run() {
       res.send({ clientSecret: paymentIntent.client_secret });
     });
 
+    // user payment status update his orders
+    app.patch("/myOrder/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+      const payment = req.body;
+      const updateDoc = {
+        $set: {
+          paid: true,
+          paymentInfo: payment,
+        },
+      };
+      // const result = await myOrderCollection.insertOne(payment);
+      const updateOrder = await myOrderCollection.updateOne(filter, updateDoc);
+      res.send({ updateOrder });
+    });
+
     //-------------------------------------------------
 
     //
