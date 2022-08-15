@@ -101,6 +101,15 @@ async function run() {
       res.send({ result });
     });
 
+    // user get by email
+    app.get("/user/:userEmail", async (req, res) => {
+      const userEmail = req.params.userEmail;
+      const query = { email: userEmail };
+      const cursor = await userCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     //-------------------------------------------------
 
     //
