@@ -141,6 +141,13 @@ async function run() {
       res.send({ result });
     });
 
+    // product post api
+    app.post("/allProducts", async (req, res, next) => {
+      const product = req.body;
+      const result = await productCollection.insertOne(product);
+      res.send(result);
+    });
+
     //-------------------------------------------------
 
     //
