@@ -220,6 +220,20 @@ async function run() {
       res.send({ updateOrder });
     });
 
+    // users order remove api
+    app.patch("/myOrderRemove/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+      const payment = req.body;
+      const updateDoc = {
+        $set: {
+          orderCancel: true,
+        },
+      };
+      const updateOrder = await myOrderCollection.updateOne(filter, updateDoc);
+      res.send({ updateOrder });
+    });
+
     //-------------------------------------------------
 
     //
