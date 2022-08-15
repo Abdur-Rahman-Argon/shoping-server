@@ -110,6 +110,14 @@ async function run() {
       res.send(result);
     });
 
+    //
+    app.get("/user", async (req, res) => {
+      const query = {};
+      const cursor = await userCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     //-------------------------------------------------
 
     //
