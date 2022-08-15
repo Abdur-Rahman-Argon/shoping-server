@@ -182,6 +182,15 @@ async function run() {
       res.send(result);
     });
 
+    // get one users all order api
+    app.get("/myOrders/:userEmail", async (req, res) => {
+      const userEmail = req.params.userEmail;
+      const query = { customerEmail: userEmail };
+      const cursor = await myOrderCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     //-------------------------------------------------
 
     //
