@@ -110,12 +110,27 @@ async function run() {
       res.send(result);
     });
 
-    //
+    // get all user api
     app.get("/user", async (req, res) => {
       const query = {};
       const cursor = await userCollection.find(query);
       const result = await cursor.toArray();
       res.send(result);
+    });
+
+    //----(Admin)---------------------------------------------------------------
+
+    // update user his profile api
+    app.put("/user/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+      const user = req.body;
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: { role: "Admin" },
+      };
+      const result = await userCollection.updateOne(filter, updateDoc, options);
+      res.send({ result });
     });
 
     //-------------------------------------------------
