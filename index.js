@@ -1,8 +1,7 @@
 const express = require("express");
-const cors = require("cors");
 require("dotenv").config();
+const cors = require("cors");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
-// var ObjectId = require("mongodb").ObjectID;
 const jwt = require("jsonwebtoken");
 const app = express();
 const port = process.env.PORT || 5000;
@@ -11,14 +10,12 @@ const port = process.env.PORT || 5000;
 const stripe = require("stripe")(
   "sk_test_51LTEuNIgycd7Qr94MKHjgOFUqlEJYBp0CrW78kIN7h0YjZX532tbl8PfbW8ar6PVNTC23mtXwhJ1LMjjXTqTyWeE00s7lYdYp9"
 );
-// shoping - point;
 
 app.use(cors());
 app.use(express.json());
 
 //------------(MongoDB)---------------------------------------------------------------
-const uri =
-  "mongodb+srv://shoping-point:nnP4cSflwEa07Sg9@cluster0.y4iwu.mongodb.net/?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.MongoDB_User}:${process.env.MongoDB_Pass}@cluster0.y4iwu.mongodb.net/?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
@@ -29,6 +26,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     await client.connect;
+    console.log("connect");
 
     //All product collection here
     const productCollection = client
