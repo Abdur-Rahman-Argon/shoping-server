@@ -52,7 +52,7 @@ async function run() {
     //------------(AllProduct Section Start)-------------------------------------------------------
 
     // all product get api
-    app.get("/allProducts", async (req, res, next) => {
+    app.get("/products", async (req, res, next) => {
       const query = {};
       const cursor = await productCollection.find(query);
       const result = await cursor.toArray();
@@ -60,11 +60,11 @@ async function run() {
     });
 
     // one product get api
-    app.get("/allProduct/:productId", async (req, res) => {
+    app.get("/product-details/:productId", async (req, res) => {
       const id = req.params.productId;
       const query = { _id: ObjectId(id) };
       const result = await productCollection.findOne(query);
-      // console.log(result);
+      console.log(id);
       res.send(result);
     });
 
@@ -149,14 +149,22 @@ async function run() {
     //------(Product Order)---------------------------------------
 
     // product add to cart post api
-    app.post("/addToCart", async (req, res) => {
+    app.post("/add-to-cart", async (req, res) => {
       const cart = req.body;
       const result = await cartCollection.insertOne(cart);
       res.send({ success: true, result });
     });
 
+    app.delete("/delete-cart-product/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const filter = { _id: ObjectId(id) };
+      const result = await cartCollection.deleteOne(filter);
+      res.send(result);
+    });
+
     // one user get his cart product api
-    app.get("/addToCart/:userEmail", async (req, res) => {
+    app.get("/cart/:userEmail", async (req, res) => {
       const userEmail = req.params.userEmail;
       const query = { email: userEmail };
       const cursor = await cartCollection.find(query);
@@ -165,14 +173,14 @@ async function run() {
     });
 
     // user order post api
-    app.post("/myOrder", async (req, res) => {
+    app.post("/my-order", async (req, res) => {
       const order = req.body;
       const result = await myOrderCollection.insertOne(order);
       res.send({ success: true, result });
     });
 
     // get users one order api
-    app.get("/myOrder/:id", async (req, res) => {
+    app.get("/my-order/:id", async (req, res) => {
       const orderId = req.params.id;
       console.log(orderId);
       const query = { _id: ObjectId(orderId) };
@@ -181,7 +189,7 @@ async function run() {
     });
 
     // get one users all order api
-    app.get("/myOrders/:userEmail", async (req, res) => {
+    app.get("/my-orders/:userEmail", async (req, res) => {
       const userEmail = req.params.userEmail;
       const query = { customerEmail: userEmail };
       const cursor = await myOrderCollection.find(query);
@@ -219,7 +227,7 @@ async function run() {
     });
 
     // users order remove api
-    app.patch("/myOrderRemove/:id", async (req, res) => {
+    app.patch("/my-order-remove/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: ObjectId(id) };
       const payment = req.body;
@@ -235,7 +243,7 @@ async function run() {
     //---review---- ----------------------------------------------------------
 
     // public review get api
-    app.get("/publicReview", async (req, res, next) => {
+    app.get("/public-review", async (req, res, next) => {
       const query = {};
       const cursor = await publicReviewCollection.filter(query);
       const result = await cursor.toArray();
@@ -243,7 +251,7 @@ async function run() {
     });
 
     // public review post api
-    app.post("/publicReview", async (req, res, next) => {
+    app.post("/public-review", async (req, res, next) => {
       const reviews = req.body;
       const result = await publicReviewCollection.insertOne(reviews);
       // const result = await cursor.toArray();
